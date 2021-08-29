@@ -5,6 +5,7 @@ import json
 from zipfile import ZipFile
 import pandas as pd
 import time
+import unicodedata
 
 
 from dash.dependencies import Input, Output, State
@@ -78,86 +79,88 @@ def parse_facebook_files():
                 if str(name.split(".zip")[0]) == str(zf.namelist()[0].split("/")[0]):
                     # Create dictionary with all the possible filepath in the uploaded facebook folder directory
                     fb_directory = {
-                        "profile_information": os.path.join(filename, "profile_information", "profile_information.json"),
-                        "account_activity": os.path.join(filename, "security_and_login_information", "account_activity.json"),
-                        "page_likes": os.path.join(filename, "likes_and_reactions", "pages.json"),
-                        "mobile_devices": os.path.join(filename, "security_and_login_information", "mobile_devices.json"),
-                        "face_recognition": os.path.join(filename, "about_you", "face_recognition.json"),
-                        "likes_and_reactions": os.path.join(filename, "likes_and_reactions", "posts_and_comments.json"),
+                        "profile_information": os.path.join(filename, "profile_information", "profile_information.json"), # validated # not tested
+                        "account_activity": os.path.join(filename, "security_and_login_information", "account_activity.json"), # validated # not tested
+                        "page_likes": os.path.join(filename, "pages", "pages_you've_liked.json"), # validated # not tested
+                        "mobile_devices": os.path.join(filename, "security_and_login_information", "mobile_devices.json"), # validated # not tested
+                        # "face_recognition": os.path.join(filename, "about_you", "face_recognition.json"),
+                        "life_stage": os.path.join(filename, "other_logged_information", "friend_peer_group.json"), # added
+                        "likes_and_reactions": os.path.join(filename, "comments_and_reactions", "posts_and_comments.json"), # validated # not tested
                         "posts": os.path.join(filename, "posts", "your_posts_1.json"),
-                        "cover_photos": os.path.join(filename, "photos_and_videos", "album", "0.json"),
-                        "profile_photos": os.path.join(filename, "photos_and_videos", "album", "1.json"),
-                        "timeline_photos": os.path.join(filename, "photos_and_videos/album/2.json"),
-                        "comments": os.path.join(filename, "comments", "comments.json"),
-                        "visited": os.path.join(filename, "about_you", "visited.json"),
-                        "viewed": os.path.join(filename, "about_you", "viewed.json"),
-                        "interactions_menu_items": os.path.join(filename, "interactions", "menu_items.json"),
-                        "interactions_people": os.path.join(filename, "interactions", "people.json"),
-                        "interactions_events": os.path.join(filename, "interactions", "events.json"),
-                        "logins_and_logouts": os.path.join(filename, "security_and_login_information", "logins_and_logouts.json"),
-                        "login_location": os.path.join(filename, "security_and_login_information", "where_you're_logged_in.json"),
-                        "used_ip": os.path.join(filename, "security_and_login_information", "used_ip_addresses.json"),
-                        "authorized_logins": os.path.join(filename, "security_and_login_information", "authorized_logins.json"),
-                        "search_history": os.path.join(filename, "search_history", "your_search_history.json"),
+                        "cover_photos": os.path.join(filename, "posts", "album", "0.json"), # validated # not tested
+                        "profile_photos": os.path.join(filename, "posts", "album", "1.json"), # validated # not tested
+                        "timeline_photos": os.path.join("posts", "album", "2.json"), # validated # not tested
+                        "comments": os.path.join(filename, "comments_and_reactions", "comments.json"), # validated # not tested
+                        "visited": os.path.join(filename, "your_interactions_on_facebook", "recently_visited.json"), # validated # not tested
+                        "viewed": os.path.join(filename, "your_interactions_on_facebook", "recently_viewed.json"), # validated # not tested
+                        # "interactions_menu_items": os.path.join(filename, "interactions", "menu_items.json"), # deprecated
+                        "interactions_people": os.path.join(filename, "activity_messages", "people_and_friends.json"), # validated # not tested
+                        "interactions_events": os.path.join(filename, "activity_messages", "events_interactions.json"), # validated # not tested
+                        "logins_and_logouts": os.path.join(filename, "security_and_login_information", "logins_and_logouts.json"), # validated # not tested
+                        "login_location": os.path.join(filename, "security_and_login_information", "where_you're_logged_in.json"), # validated # not tested
+                        "used_ip": os.path.join(filename, "security_and_login_information", "ip_address_activity.json"), # validated # not tested
+                        # "authorized_logins": os.path.join(filename, "security_and_login_information", "authorized_logins.json"), # deprecated
+                        "search_history": os.path.join(filename, "search", "your_search_history.json"), # validated # not tested
                         "advertisers_interaction": os.path.join(
-                            filename, "ads_and_businesses", "advertisers_you've_interacted_with.json"
-                        ),
+                            "ads_information", "advertisers_you've_interacted_with.json"
+                        ), # validated # not tested
                         "ad_contact_info": os.path.join(
-                            filename, "ads_and_businesses",
+                            "ads_information",
                             "advertisers_who_uploaded_a_contact_list_with_your_information.json",
-                        ),
-                        "ads_interests": os.path.join(filename, "ads_and_businesses", "ads_interests.json"),
-                        "ads_topics": os.path.join(filename, "your_topics", "your_topics.json"),
-                        "cookies": os.path.join(filename, "security_and_login_information", "datr_cookie_info.json"),
+                        ), # validated # not tested
+                        "ads_interests": os.path.join("other_logged_information", "ads_interests.json"), # validated # not tested
+                        "ads_topics": os.path.join("your_topics", "your_topics.json"), # validated # not tested
+                        "cookies": os.path.join("security_and_login_information", "browser_cookies.json"), # validated # not tested
                     }
                 else:
                     # Create dictionary with all the possible filepath in the uploaded facebook folder directory
                     fb_directory = {
-                        "profile_information": os.path.join("profile_information", "profile_information.json"),
-                        "account_activity": os.path.join("security_and_login_information", "account_activity.json"),
-                        "page_likes": os.path.join("likes_and_reactions", "pages.json"),
-                        "mobile_devices": os.path.join("security_and_login_information", "mobile_devices.json"),
-                        "face_recognition": os.path.join("about_you", "face_recognition.json"),
-                        "likes_and_reactions": os.path.join("likes_and_reactions", "posts_and_comments.json"),
+                        "profile_information": os.path.join("profile_information", "profile_information.json"), # validated # not tested
+                        "account_activity": os.path.join("security_and_login_information", "account_activity.json"), # validated # not tested
+                        "page_likes": os.path.join("pages", "pages_you've_liked.json"), # validated # not tested
+                        "mobile_devices": os.path.join("security_and_login_information", "mobile_devices.json"), # validated # not tested
+                        # "face_recognition": os.path.join("about_you", "face_recognition.json"), # deprecated
+                        "likes_and_reactions": os.path.join("comments_and_reactions", "posts_and_comments.json"), # validated # not tested
+                        "life_stage": os.path.join("other_logged_information", "friend_peer_group.json"), # added
                         "posts": os.path.join("posts", "your_posts_1.json"),
-                        "cover_photos": os.path.join("photos_and_videos", "album", "0.json"),
-                        "profile_photos": os.path.join("photos_and_videos", "album", "1.json"),
-                        "timeline_photos": os.path.join("photos_and_videos/album/2.json"),
-                        "comments": os.path.join("comments", "comments.json"),
-                        "visited": os.path.join("about_you", "visited.json"),
-                        "viewed": os.path.join("about_you", "viewed.json"),
-                        "interactions_menu_items": os.path.join("interactions", "menu_items.json"),
-                        "interactions_people": os.path.join("interactions", "people.json"),
-                        "interactions_events": os.path.join("interactions", "events.json"),
-                        "logins_and_logouts": os.path.join("security_and_login_information", "logins_and_logouts.json"),
-                        "login_location": os.path.join("security_and_login_information", "where_you're_logged_in.json"),
-                        "used_ip": os.path.join("security_and_login_information", "used_ip_addresses.json"),
-                        "authorized_logins": os.path.join("security_and_login_information", "authorized_logins.json"),
-                        "search_history": os.path.join("search_history", "your_search_history.json"),
+                        "cover_photos": os.path.join("posts", "album", "0.json"), # validated # not tested
+                        "profile_photos": os.path.join("posts", "album", "1.json"), # validated # not tested
+                        "timeline_photos": os.path.join("posts", "album", "2.json"), # validated # not tested
+                        "comments": os.path.join("comments_and_reactions", "comments.json"), # validated # not tested
+                        "visited": os.path.join("your_interactions_on_facebook", "recently_visited.json"), # validated # not tested
+                        "viewed": os.path.join("your_interactions_on_facebook", "recently_viewed.json"), # validated # not tested
+                        # "interactions_menu_items": os.path.join("interactions", "menu_items.json"), # deprecated
+                        "interactions_people": os.path.join("activity_messages", "people_and_friends.json"), # validated # not tested
+                        "interactions_events": os.path.join("activity_messages", "events_interactions.json"), # validated # not tested
+                        "logins_and_logouts": os.path.join("security_and_login_information", "logins_and_logouts.json"), # validated # not tested
+                        "login_location": os.path.join("security_and_login_information", "where_you're_logged_in.json"), # validated # not tested
+                        "used_ip": os.path.join("security_and_login_information", "ip_address_activity.json"), # validated # not tested
+                        # "authorized_logins": os.path.join(filename, "security_and_login_information", "authorized_logins.json"), # deprecated
+                        "search_history": os.path.join("search", "your_search_history.json"), # validated # not tested
                         "advertisers_interaction": os.path.join(
-                            "ads_and_businesses", "advertisers_you've_interacted_with.json"
-                        ),
+                            "ads_information", "advertisers_you've_interacted_with.json"
+                        ), # validated # not tested
                         "ad_contact_info": os.path.join(
-                            "ads_and_businesses",
+                            "ads_information",
                             "advertisers_who_uploaded_a_contact_list_with_your_information.json",
-                        ),
-                        "ads_interests": os.path.join("ads_and_businesses", "ads_interests.json"),
-                        "ads_topics": os.path.join("your_topics", "your_topics.json"),
-                        "cookies": os.path.join("security_and_login_information", "datr_cookie_info.json"),
+                        ), # validated # not tested
+                        "ads_interests": os.path.join("other_logged_information", "ads_interests.json"), # validated # not tested
+                        "ads_topics": os.path.join("your_topics", "your_topics.json"), # validated # not tested
+                        "cookies": os.path.join("security_and_login_information", "browser_cookies.json"), # validated # not tested
                     }
 
                 fb_file_used = 0
                 # OUTPUT 1
                 # Read the relevant files
-                if (fb_directory["profile_information"]) in file_list:
+                if (fb_directory["profile_information"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     profile_information = json.load(zf.open(fb_directory["profile_information"]))
-                    pseudo = profile_information["profile"]["name"]["full_name"]
-                    acr = profile_information["profile"]["registration_timestamp"]
-                    mail = profile_information["profile"]["emails"]["emails"][0]
-                    phone_number = profile_information["profile"]["phone_numbers"]
+                    pseudo = profile_information["profile_v2"]["name"]["full_name"]
+                    acr = profile_information["profile_v2"]["registration_timestamp"]
+                    mail = profile_information["profile_v2"]["emails"]["emails"][0]
+                    phone_number = profile_information["profile_v2"]["phone_numbers"]
                     if len(phone_number) > 0:
-                        phone_number = profile_information["profile"]["phone_numbers"][0]["phone_number"]
+                        phone_number = profile_information["profile_v2"]["phone_numbers"][0]["phone_number"]
                     else:
                         phone_number = None
                 else:
@@ -166,37 +169,37 @@ def parse_facebook_files():
                     mail = None
                     phone_number = None
 
-                if (fb_directory["account_activity"]) in file_list:
+                if (fb_directory["account_activity"]) in file_list: #validated #not tested
                     fb_file_used = fb_file_used + 1
                     login_information = json.load(zf.open(fb_directory["account_activity"]))
-                    last_ip_ts = login_information["account_activity"][0]["timestamp"]
-                    last_ip = login_information["account_activity"][0]["ip_address"]
+                    last_ip_ts = login_information["account_activity_v2"][0]["timestamp"]
+                    last_ip = login_information["account_activity_v2"][0]["ip_address"]
                 else:
                     last_ip = None
                     last_ip_ts = None
 
-                if (fb_directory["page_likes"]) in file_list:
+                if (fb_directory["page_likes"]) in file_list: #validated #not tested
                     fb_file_used = fb_file_used + 1
                     pages = json.load(zf.open(fb_directory["page_likes"]))
-                    areas_of_interest = len(pages["page_likes"])
+                    areas_of_interest = len(pages["page_likes_v2"])
                 else:
                     areas_of_interest = None
 
-                if (fb_directory["mobile_devices"]) in file_list:
+                if (fb_directory["mobile_devices"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     device_information = json.load(zf.open(fb_directory["mobile_devices"]))
-                    device = device_information["devices"][0]["type"]
-                    os = device_information["devices"][0]["os"]
+                    device = device_information["devices_v2"][0]["type"]
+                    os = device_information["devices_v2"][0]["os"]
                 else:
                     device = None
                     os = None
 
-                if (fb_directory["face_recognition"]) in file_list:
+                if (fb_directory["life_stage"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
-                    facial_recognition = json.load(zf.open(fb_directory["face_recognition"]))
-                    facial_recognition_status = "activée"
+                    life_stage = json.load(zf.open(fb_directory["life_stage"]))
+                    life_stage_value = life_stage['friend_peer_group_v2']
                 else:
-                    facial_recognition_status = "desactivée"
+                    life_stage_value = None
 
                 # Aggregate information in dictionaries
                 general_info_1 = {
@@ -213,7 +216,7 @@ def parse_facebook_files():
                 general_info_2 = {
                     "devices": device,
                     "operating_system": os,
-                    "facial_recognition": facial_recognition_status,
+                    "life_stage": life_stage_value,
                 }
 
                 # convert dict to JSON
@@ -228,16 +231,16 @@ def parse_facebook_files():
                 count_kpi_1 = []
                 # Read the relevant files
                 # Likes and reactions
-                if (fb_directory["likes_and_reactions"]) in file_list:
+                if (fb_directory["likes_and_reactions"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     likes_and_reactions_r = json.load(zf.open(fb_directory["likes_and_reactions"]))
-                    for element in likes_and_reactions_r["reactions"]:
+                    for element in likes_and_reactions_r["reactions_v2"]:
                         platform_kpi_1.append("facebook")
                         info_kpi_1.append("likes and reactions")
                         year_kpi_1.append(datetime.utcfromtimestamp(element["timestamp"]).year)
                         count_kpi_1.append(1)
                 # Posts
-                if (fb_directory["posts"]) in file_list:
+                if (fb_directory["posts"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     posts_r = json.load(zf.open(fb_directory["posts"]))
                     for element in posts_r:
@@ -246,7 +249,7 @@ def parse_facebook_files():
                         year_kpi_1.append(datetime.utcfromtimestamp(element["timestamp"]).year)
                         count_kpi_1.append(1)
                 # Photos
-                if (fb_directory["cover_photos"]) in file_list:
+                if (fb_directory["cover_photos"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     photos_0_r = json.load(zf.open(fb_directory["cover_photos"]))
                     for element in photos_0_r["photos"]:
@@ -254,7 +257,7 @@ def parse_facebook_files():
                         info_kpi_1.append("photos")
                         year_kpi_1.append(datetime.utcfromtimestamp(element["creation_timestamp"]).year)
                         count_kpi_1.append(1)
-                if (fb_directory["profile_photos"]) in file_list:
+                if (fb_directory["profile_photos"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     photos_1_r = json.load(zf.open(fb_directory["profile_photos"]))
                     for element in photos_1_r["photos"]:
@@ -262,7 +265,7 @@ def parse_facebook_files():
                         info_kpi_1.append("photos")
                         year_kpi_1.append(datetime.utcfromtimestamp(element["creation_timestamp"]).year)
                         count_kpi_1.append(1)
-                if (fb_directory["timeline_photos"]) in file_list:
+                if (fb_directory["timeline_photos"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     photos_2_r = json.load(zf.open(fb_directory["timeline_photos"]))
                     for element in photos_2_r["photos"]:
@@ -271,10 +274,10 @@ def parse_facebook_files():
                         year_kpi_1.append(datetime.utcfromtimestamp(element["creation_timestamp"]).year)
                         count_kpi_1.append(1)
                 # Comments
-                if (fb_directory["comments"]) in file_list:
+                if (fb_directory["comments"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     comments_r = json.load(zf.open(fb_directory["comments"]))
-                    for element in comments_r["comments"]:
+                    for element in comments_r["comments_v2"]:
                         platform_kpi_1.append("facebook")
                         info_kpi_1.append("comments")
                         year_kpi_1.append(datetime.utcfromtimestamp(element["timestamp"]).year)
@@ -300,198 +303,198 @@ def parse_facebook_files():
                 count_behavioural = []
                 # Read the relevant files
                 # Product behavioural data
-                if (fb_directory["visited"]) in file_list:
+                if (fb_directory["visited"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     visited_r = json.load(zf.open(fb_directory["visited"]))
-                    if len(visited_r["visited_things"][0]["entries"]) > 0:
-                        for i in range(0, len(visited_r["visited_things"][0]["entries"])):
+                    if len(visited_r["visited_things_v2"][0]["entries"]) > 0:
+                        for i in range(0, len(visited_r["visited_things_v2"][0]["entries"])):
                             platform_behavioural.append("facebook")
                             source_behavioural.append("produit")
                             year_behavioural.append(
                                 datetime.utcfromtimestamp(
-                                    visited_r["visited_things"][0]["entries"][i]["timestamp"]
+                                    visited_r["visited_things_v2"][0]["entries"][i]["timestamp"]
                                 ).year
                             )
                             count_behavioural.append(1)
-                    if len(visited_r["visited_things"][1]["entries"]) > 0:
-                        for i in range(0, len(visited_r["visited_things"][1]["entries"])):
+                    if len(visited_r["visited_things_v2"][1]["entries"]) > 0:
+                        for i in range(0, len(visited_r["visited_things_v2"][1]["entries"])):
                             platform_behavioural.append("facebook")
                             source_behavioural.append("produit")
                             year_behavioural.append(
                                 datetime.utcfromtimestamp(
-                                    visited_r["visited_things"][1]["entries"][i]["timestamp"]
+                                    visited_r["visited_things_v2"][1]["entries"][i]["timestamp"]
                                 ).year
                             )
                             count_behavioural.append(1)
-                    if len(visited_r["visited_things"][2]["entries"]) > 0:
-                        for i in range(0, len(visited_r["visited_things"][2]["entries"])):
+                    if len(visited_r["visited_things_v2"][2]["entries"]) > 0:
+                        for i in range(0, len(visited_r["visited_things_v2"][2]["entries"])):
                             platform_behavioural.append("facebook")
                             source_behavioural.append("produit")
                             year_behavioural.append(
                                 datetime.utcfromtimestamp(
-                                    visited_r["visited_things"][2]["entries"][i]["timestamp"]
+                                    visited_r["visited_things_v2"][2]["entries"][i]["timestamp"]
                                 ).year
                             )
                             count_behavioural.append(1)
-                    if len(visited_r["visited_things"][3]["entries"]) > 0:
-                        for i in range(0, len(visited_r["visited_things"][3]["entries"])):
+                    if len(visited_r["visited_things_v2"][3]["entries"]) > 0:
+                        for i in range(0, len(visited_r["visited_things_v2"][3]["entries"])):
                             platform_behavioural.append("facebook")
                             source_behavioural.append("produit")
                             year_behavioural.append(
                                 datetime.utcfromtimestamp(
-                                    visited_r["visited_things"][3]["entries"][i]["timestamp"]
+                                    visited_r["visited_things_v2"][3]["entries"][i]["timestamp"]
                                 ).year
                             )
                             count_behavioural.append(1)
 
-                    if (fb_directory["viewed"]) in file_list:
+                    if (fb_directory["viewed"]) in file_list: # validated # not tested
                         fb_file_used = fb_file_used + 1
                         viewed_r = json.load(zf.open(fb_directory["viewed"]))
-                        if "entries" in viewed_r["viewed_things"][0]["children"][0]:
-                            if len(viewed_r["viewed_things"][0]["children"][0]["entries"]) > 0:
+                        if "entries" in viewed_r["recently_viewed"][0]["children"][0]:
+                            if len(viewed_r["recently_viewed"][0]["children"][0]["entries"]) > 0:
                                 for i in range(
                                     0,
-                                    len(viewed_r["viewed_things"][0]["children"][0]["entries"]),
+                                    len(viewed_r["recently_viewed"][0]["children"][0]["entries"]),
                                 ):
                                     platform_behavioural.append("facebook")
                                     source_behavioural.append("produit")
                                     year_behavioural.append(
                                         datetime.utcfromtimestamp(
-                                            viewed_r["viewed_things"][0]["children"][0]["entries"][i]["timestamp"]
+                                            viewed_r["recently_viewed"][0]["children"][0]["entries"][i]["timestamp"]
                                         ).year
                                     )
                                     count_behavioural.append(1)
-                        if "entries" in viewed_r["viewed_things"][1]:
-                            if len(viewed_r["viewed_things"][1]["entries"]) > 0:
-                                for i in range(0, len(viewed_r["viewed_things"][1]["entries"])):
+                        if "entries" in viewed_r["recently_viewed"][1]:
+                            if len(viewed_r["recently_viewed"][1]["entries"]) > 0:
+                                for i in range(0, len(viewed_r["recently_viewed"][1]["entries"])):
                                     platform_behavioural.append("facebook")
                                     source_behavioural.append("produit")
                                     year_behavioural.append(
                                         datetime.utcfromtimestamp(
-                                            viewed_r["viewed_things"][1]["entries"][i]["timestamp"]
+                                            viewed_r["recently_viewed"][1]["entries"][i]["timestamp"]
                                         ).year
                                     )
                                     count_behavioural.append(1)
-                        if "entries" in viewed_r["viewed_things"][2]:
-                            if len(viewed_r["viewed_things"][2]["entries"]) > 0:
-                                for i in range(0, len(viewed_r["viewed_things"][2]["entries"])):
+                        if "entries" in viewed_r["recently_viewed"][2]:
+                            if len(viewed_r["recently_viewed"][2]["entries"]) > 0:
+                                for i in range(0, len(viewed_r["recently_viewed"][2]["entries"])):
                                     platform_behavioural.append("facebook")
                                     source_behavioural.append("produit")
                                     year_behavioural.append(
                                         datetime.utcfromtimestamp(
-                                            viewed_r["viewed_things"][2]["entries"][i]["timestamp"]
+                                            viewed_r["recently_viewed"][2]["entries"][i]["timestamp"]
                                         ).year
                                     )
                                     count_behavioural.append(1)
-                if (fb_directory["interactions_menu_items"]) in file_list:
-                    fb_file_used = fb_file_used + 1
-                    menu_r = json.load(zf.open(fb_directory["interactions_menu_items"]))
-                    if len(menu_r["menu_items"][0]["entries"]) > 0:
-                        for i in range(0, len(menu_r["menu_items"][0]["entries"])):
-                            platform_behavioural.append("facebook")
-                            source_behavioural.append("produit")
-                            year_behavioural.append(
-                                datetime.utcfromtimestamp(menu_r["menu_items"][0]["entries"][i]["timestamp"]).year
-                            )
-                            count_behavioural.append(1)
-                if (fb_directory["interactions_people"]) in file_list:
+                # if (fb_directory["interactions_menu_items"]) in file_list:
+                #     fb_file_used = fb_file_used + 1
+                #     menu_r = json.load(zf.open(fb_directory["interactions_menu_items"]))
+                #     if len(menu_r["menu_items"][0]["entries"]) > 0:
+                #         for i in range(0, len(menu_r["menu_items"][0]["entries"])):
+                #             platform_behavioural.append("facebook")
+                #             source_behavioural.append("produit")
+                #             year_behavioural.append(
+                #                 datetime.utcfromtimestamp(menu_r["menu_items"][0]["entries"][i]["timestamp"]).year
+                #             )
+                #             count_behavioural.append(1)
+                if (fb_directory["interactions_people"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     people_r = json.load(zf.open(fb_directory["interactions_people"]))
-                    if len(people_r["people_interactions"][0]["entries"]) > 0:
-                        for i in range(0, len(people_r["people_interactions"][0]["entries"])):
+                    if len(people_r["people_interactions_v2"][0]["entries"]) > 0:
+                        for i in range(0, len(people_r["people_interactions_v2"][0]["entries"])):
                             platform_behavioural.append("facebook")
                             source_behavioural.append("produit")
                             year_behavioural.append(
                                 datetime.utcfromtimestamp(
-                                    people_r["people_interactions"][0]["entries"][i]["timestamp"]
+                                    people_r["people_interactions_v2"][0]["entries"][i]["timestamp"]
                                 ).year
                             )
                             count_behavioural.append(1)
-                if (fb_directory["interactions_events"]) in file_list:
+                if (fb_directory["interactions_events"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     events_r = json.load(zf.open(fb_directory["interactions_events"]))
-                    if len(events_r["events_interactions"][0]["entries"]) > 0:
-                        for i in range(0, len(events_r["events_interactions"][0]["entries"])):
+                    if len(events_r["events_interactions_v2"][0]["entries"]) > 0:
+                        for i in range(0, len(events_r["events_interactions_v2"][0]["entries"])):
                             platform_behavioural.append("facebook")
                             source_behavioural.append("produit")
                             year_behavioural.append(
                                 datetime.utcfromtimestamp(
-                                    events_r["events_interactions"][0]["entries"][i]["timestamp"]
+                                    events_r["events_interactions_v2"][0]["entries"][i]["timestamp"]
                                 ).year
                             )
                             count_behavioural.append(1)
                 # Localisation behavioural data
-                if (fb_directory["account_activity"]) in file_list:
+                if (fb_directory["account_activity"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     account_activity_r = json.load(zf.open(fb_directory["account_activity"]))
-                    for element in account_activity_r["account_activity"]:
+                    for element in account_activity_r["account_activity_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("localisation")
                         year_behavioural.append(datetime.utcfromtimestamp(element["timestamp"]).year)
                         count_behavioural.append(1)
-                if (fb_directory["logins_and_logouts"]) in file_list:
+                if (fb_directory["logins_and_logouts"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     logins_logout_r = json.load(zf.open(fb_directory["logins_and_logouts"]))
-                    for element in logins_logout_r["account_accesses"]:
+                    for element in logins_logout_r["account_accesses_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("localisation")
                         year_behavioural.append(datetime.utcfromtimestamp(element["timestamp"]).year)
                         count_behavioural.append(1)
-                if (fb_directory["login_location"]) in file_list:
+                if (fb_directory["login_location"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     logins_r = json.load(zf.open(fb_directory["login_location"]))
-                    for element in logins_r["active_sessions"]:
+                    for element in logins_r["active_sessions_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("localisation")
                         year_behavioural.append(datetime.utcfromtimestamp(element["created_timestamp"]).year)
                         count_behavioural.append(1)
-                if (fb_directory["used_ip"]) in file_list:
+                if (fb_directory["used_ip"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     used_ip_r = json.load(zf.open(fb_directory["used_ip"]))
-                    for element in used_ip_r["used_ip_address"]:
+                    for element in used_ip_r["used_ip_address_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("localisation")
                         year_behavioural.append(datetime.utcfromtimestamp(element["timestamp"]).year)
                         count_behavioural.append(1)
-                if (fb_directory["authorized_logins"]) in file_list:
-                    fb_file_used = fb_file_used + 1
-                    authorized_logins_r = json.load(zf.open(fb_directory["authorized_logins"]))
-                    for element in authorized_logins_r["recognized_devices"]:
-                        platform_behavioural.append("facebook")
-                        source_behavioural.append("localisation")
-                        year_behavioural.append(datetime.utcfromtimestamp(element["created_timestamp"]).year)
-                        count_behavioural.append(1)
+                # if (fb_directory["authorized_logins"]) in file_list:
+                #     fb_file_used = fb_file_used + 1
+                #     authorized_logins_r = json.load(zf.open(fb_directory["authorized_logins"]))
+                #     for element in authorized_logins_r["recognized_devices"]:
+                #         platform_behavioural.append("facebook")
+                #         source_behavioural.append("localisation")
+                #         year_behavioural.append(datetime.utcfromtimestamp(element["created_timestamp"]).year)
+                #         count_behavioural.append(1)
                 # Connexion behavioural data
-                if (fb_directory["account_activity"]) in file_list:
+                if (fb_directory["account_activity"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     account_activity_r = json.load(zf.open(fb_directory["account_activity"]))
-                    for element in account_activity_r["account_activity"]:
+                    for element in account_activity_r["account_activity_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("connexion")
                         year_behavioural.append(datetime.utcfromtimestamp(element["timestamp"]).year)
                         count_behavioural.append(1)
-                if (fb_directory["logins_and_logouts"]) in file_list:
+                if (fb_directory["logins_and_logouts"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     logins_logout_r = json.load(zf.open(fb_directory["logins_and_logouts"]))
-                    for element in logins_logout_r["account_accesses"]:
+                    for element in logins_logout_r["account_accesses_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("connexion")
                         year_behavioural.append(datetime.utcfromtimestamp(element["timestamp"]).year)
                         count_behavioural.append(1)
-                if (fb_directory["login_location"]) in file_list:
+                if (fb_directory["login_location"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     logins_r = json.load(zf.open(fb_directory["login_location"]))
-                    for element in logins_r["active_sessions"]:
+                    for element in logins_r["active_sessions_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("connexion")
                         year_behavioural.append(datetime.utcfromtimestamp(element["created_timestamp"]).year)
                         count_behavioural.append(1)
                 # Transaction behavioural data
                 # Search history behavioural data
-                if (fb_directory["search_history"]) in file_list:
+                if (fb_directory["search_history"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     search_r = json.load(zf.open(fb_directory["search_history"]))
-                    for element in search_r["searches"]:
+                    for element in search_r["searches_v2"]:
                         platform_behavioural.append("facebook")
                         source_behavioural.append("historique")
                         year_behavioural.append(datetime.utcfromtimestamp(element["timestamp"]).year)
@@ -515,49 +518,48 @@ def parse_facebook_files():
                 info_kpi_2 = []
                 count_kpi_2 = []
                 # Read the relevant files
-                if (fb_directory["advertisers_interaction"]) in file_list:
+                if (fb_directory["advertisers_interaction"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     ads_interactions = json.load(zf.open(fb_directory["advertisers_interaction"]))
                     platform_kpi_2.append("facebook")
                     info_kpi_2.append("ads_interactions")
-                    count_kpi_2.append(len(ads_interactions["history"]))
-                # Fix issue here
-                if (fb_directory["viewed"]) in file_list:
+                    count_kpi_2.append(len(ads_interactions["history_v2"]))
+                if (fb_directory["viewed"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     viewed_r = json.load(zf.open(fb_directory["viewed"]))
                     platform_kpi_2.append("facebook")
                     info_kpi_2.append("ads_interactions")
-                    if len(viewed_r["viewed_things"]) >= 5:
-                        if "entries" in viewed_r["viewed_things"][5]:
-                            count_kpi_2.append(len(viewed_r["viewed_things"][5]["entries"]))
+                    if len(viewed_r["recently_viewed"]) >= 5:
+                        if "entries" in viewed_r["recently_viewed"][5]:
+                            count_kpi_2.append(len(viewed_r["recently_viewed"][5]["entries"]))
                         else:
                             count_kpi_2.append(0)
                     else:
                         count_kpi_2.append(0)
-                if (fb_directory["ad_contact_info"]) in file_list:
+                if (fb_directory["ad_contact_info"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     advertisers = json.load(zf.open(fb_directory["ad_contact_info"]))
                     platform_kpi_2.append("facebook")
                     info_kpi_2.append("advertisers")
-                    count_kpi_2.append(len(advertisers["custom_audiences"]))
-                if (fb_directory["ads_interests"]) in file_list:
+                    count_kpi_2.append(len(advertisers["custom_audiences_v2"]))
+                if (fb_directory["ads_interests"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     ads_interests_1 = json.load(zf.open(fb_directory["ads_interests"]))
                     platform_kpi_2.append("facebook")
                     info_kpi_2.append("ads_interests")
-                    count_kpi_2.append(len(ads_interests_1["topics"]))
-                if (fb_directory["ads_topics"]) in file_list:
+                    count_kpi_2.append(len(ads_interests_1["topics_v2"]))
+                if (fb_directory["ads_topics"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     ads_interests_2 = json.load(zf.open(fb_directory["ads_topics"]))
                     platform_kpi_2.append("facebook")
                     info_kpi_2.append("ads_interests")
-                    count_kpi_2.append(len(ads_interests_2["inferred_topics"]))
-                if (fb_directory["cookies"]) in file_list:
+                    count_kpi_2.append(len(ads_interests_2["inferred_topics_v2"]))
+                if (fb_directory["cookies"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     cookies = json.load(zf.open(fb_directory["cookies"]))
                     platform_kpi_2.append("facebook")
                     info_kpi_2.append("cookies")
-                    count_kpi_2.append(len(cookies["datr_stats"]))
+                    count_kpi_2.append(len(cookies["datr_stats_v2"]))
                 # Aggregate lists of information in df
                 df_kpi_layer_2 = pd.DataFrame(
                     {
@@ -574,16 +576,16 @@ def parse_facebook_files():
                 platform_ads_interests = []
                 ads_interests = []
                 # Read the relevant files
-                if (fb_directory["ads_interests"]) in file_list:
+                if (fb_directory["ads_interests"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     ads_interests_list_1 = json.load(zf.open(fb_directory["ads_interests"]))
-                    for element in ads_interests_list_1["topics"]:
+                    for element in ads_interests_list_1["topics_v2"]:
                         platform_ads_interests.append("facebook")
                         ads_interests.append(element)
-                if (fb_directory["ads_topics"]) in file_list:
+                if (fb_directory["ads_topics"]) in file_list: # validated # not tested
                     fb_file_used = fb_file_used + 1
                     ads_interests_list_2 = json.load(zf.open(fb_directory["ads_topics"]))
-                    for element in ads_interests_list_2["inferred_topics"]:
+                    for element in ads_interests_list_2["inferred_topics_v2"]:
                         platform_ads_interests.append("facebook")
                         ads_interests.append(element)
                 # Aggregate lists of information in df
