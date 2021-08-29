@@ -450,14 +450,14 @@ def update_left_panel_info():
         Return:
             os (str) :
             devices (datetime) :
-            facial_recognition (str) :
+            life_stage (str) :
     """
 
     @app.callback(
         [
             Output("os", "children"),
             Output("devices", "children"),
-            Output("facial_recognition", "children"),
+            Output("life_stage", "children"),
         ],
         [Input("slct_platform", "value")],
         [State("fb-gen-info-2", "data")],
@@ -477,10 +477,10 @@ def update_left_panel_info():
                 platform.append("facebook")
                 category.append("operating_system")
                 information.append(data_fb["operating_system"])
-            if data_fb["facial_recognition"] is not None:
+            if data_fb["life_stage"] is not None:
                 platform.append("facebook")
-                category.append("facial_recognition")
-                information.append(data_fb["facial_recognition"])
+                category.append("life_stage")
+                information.append(data_fb["life_stage"])
         if information:
             # if there is data available, aggregate the lists in a single df
             df = pd.DataFrame({"platform": platform, "category": category, "information": information})
@@ -495,17 +495,17 @@ def update_left_panel_info():
                 devices = ", ".join([str(elem) for elem in df_devices["information"]])
             else:
                 devices = ""
-            if "facial_recognition" in list(dff.category):
-                df_facial_recognition = dff[dff["category"] == "facial_recognition"]
-                facial_recognition = ", ".join([str(elem) for elem in df_facial_recognition["information"]])
+            if "life_stage" in list(dff.category):
+                df_life_stage = dff[dff["category"] == "life_stage"]
+                life_stage = ", ".join([str(elem) for elem in df_life_stage["information"]])
             else:
-                facial_recognition = ""
+                life_stage = ""
         else:
             os = ""
             devices = ""
-            facial_recognition = ""
+            life_stage = ""
 
-        return os, devices, facial_recognition
+        return os, devices, life_stage
 
 
 def display_username_tab_2():
