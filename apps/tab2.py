@@ -93,7 +93,7 @@ layout = html.Div(
                             className="icon",
                             src=app.get_asset_url("facial-recognition.png"),
                         ),
-                        html.H6("Reconnaissance faciale"),
+                        html.H6("Stade de vie"),
                         html.Tr(
                             className="row5",
                             children=[
@@ -101,7 +101,7 @@ layout = html.Div(
                                     children=[
                                         html.P(
                                             className="td-info",
-                                            id="facial_recognition",
+                                            id="life_stage",
                                         )
                                     ]
                                 )
