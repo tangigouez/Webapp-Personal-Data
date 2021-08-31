@@ -52,7 +52,7 @@ def parse_google_files():
                 # Get name of the file uploaded
                 filename = name.split(".zip")[0]
                 # Now you can use ZipFile to take the BytesIO output
-                ZipFile(zip_str, 'r').printdir() # To use in order to check the directory of the folder uploaded
+                # ZipFile(zip_str, 'r').printdir() # To use in order to check the directory of the folder uploaded
                 zf = ZipFile(zip_str, "r")
                 if str(filename) != str(zf.namelist()[0].split("/")[0]):
                     filename = str(zf.namelist()[0].split("/")[0])
