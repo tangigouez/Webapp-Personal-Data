@@ -2,8 +2,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
-from apps.tasks.datauploader.parse_facebook_files import (parse_facebook_files, loading_state_fb)
-from apps.tasks.datauploader.parse_google_files import (parse_google_files, loading_state_gg)
+from apps.tasks.datauploader.parse_facebook_files import parse_facebook_files, loading_state_fb
+from apps.tasks.datauploader.parse_google_files import parse_google_files, loading_state_gg
 
 from app import app
 
@@ -164,7 +164,7 @@ layout = html.Div(
                             },
                             # Allow multiple files to be uploaded
                             multiple=True,
-                            max_size=150000000
+                            max_size=150000000,
                         ),
                         html.Br(),
                         dcc.Loading(id="loading-output-facebook"),
