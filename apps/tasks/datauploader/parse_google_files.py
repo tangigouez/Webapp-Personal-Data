@@ -52,7 +52,7 @@ def parse_google_files():
                 # Get name of the file uploaded
                 filename = name.split(".zip")[0]
                 # Now you can use ZipFile to take the BytesIO output
-                # ZipFile(zip_str, 'r').printdir() # To use in order to check the directory of the folder uploaded
+                ZipFile(zip_str, 'r').printdir() # To use in order to check the directory of the folder uploaded
                 zf = ZipFile(zip_str, "r")
                 if str(filename) != str(zf.namelist()[0].split("/")[0]):
                     filename = str(zf.namelist()[0].split("/")[0])
@@ -69,28 +69,47 @@ def parse_google_files():
                 # As the folder is potentially heavy, set a time sleep to let the function ingest files before reading
                 time.sleep(5)
 
-                # Create dictionary with all the possible filepath in the uploaded google folder directory
-                gg_directory = {
-                    "profile_information": os.path.join("/Profil", "Profil.json"),
-                    "autofill": os.path.join("/Chrome", "Autofill.json"),
-                    "youtube_subscriptions": os.path.join(
-                        "/YouTube et YouTube┬áMusic", "abonnements", "abonnements.json"
-                    ),
-                    "play_store_library": os.path.join("/Google Play┬áStore", "Library.json"),
-                    "play_store_installs": os.path.join("/Google Play┬áStore", "Installs.json"),
-                    "google_home": os.path.join("/Application Google┬áHome", "HomeHistory.json"),
-                    "addresses_to_visit": os.path.join("/Enregistré", "A╠Ç visiter.csv"),  # issue with filepath
-                    "addresses_favourite": os.path.join("/Enregistre╠ü", "Adresses favorites.csv"),
-                    # issue with filepath
-                    "addresses_sellers": os.path.join("/Enregistre╠ü", "Adresses vendeurs.csv"),
-                    "localisation_history": os.path.join("/Historique des positions", "Historique des positions.json"),
-                    "google_pay": os.path.join(
-                        "/Google┬áPay",
-                        "Envois et demandes d_argent",
-                        "Envois et demandes d_argent.csv",
-                    ),
-                    "browser_history": os.path.join("/Chrome", "BrowserHistory.json"),
-                }
+                # check if the Google folder names are in EN or FR
+                if (os.path.join(filename + "/Profile", "Profile.json") in file_list) or (os.path.join(filename + "/Home App", "HomeHistory.json") in file_list)\
+                        or (os.path.join(filename + "/Location History", "Location History.json") in file_list) \
+                        or (os.path.join(filename + "/Location History", "Location History.json") in file_list)\
+                        or (os.path.join(filename + "/Saved", "Favourite places.csv") in file_list):
+                    # Create dictionary with all the possible EN filepaths in the uploaded google folder directory
+                    gg_directory = {
+                        "profile_information": os.path.join("/Profile", "Profile.json"),
+                        "autofill": os.path.join("/Chrome", "Autofill.json"),
+                        "youtube_subscriptions": os.path.join(
+                            "/YouTube and YouTube┬áMusic", "subscriptions", "subscriptions.json"
+                        ),
+                        "play_store_library": os.path.join("/Google Play Store", "Library.json"),
+                        "play_store_installs": os.path.join("/Google Play Store", "Installs.json"),
+                        "google_home": os.path.join("/Home App", "HomeHistory.json"),
+                        "addresses_to_visit": os.path.join("/Saved", "Want to go.csv"),  # issue with filepath
+                        "addresses_favourite": os.path.join("/Saved", "Favourite places.csv"),
+                        "addresses_sellers": os.path.join("/Saved", "Adresses vendeurs.csv"),
+                        "localisation_history": os.path.join("/Location History",
+                                                             "Location History.json"),
+                        "browser_history": os.path.join("/Chrome", "BrowserHistory.json"),
+                    }
+                else:
+                    # Create dictionary with all the possible FR filepaths in the uploaded google folder directory
+                    gg_directory = {
+                        "profile_information": os.path.join("/Profil", "Profil.json"),
+                        "autofill": os.path.join("/Chrome", "Autofill.json"),
+                        "play_store_library": os.path.join("/Google Play┬áStore", "Library.json"),
+                        "play_store_installs": os.path.join("/Google Play┬áStore", "Installs.json"),
+                        "google_home": os.path.join("/Application Google┬áHome", "HomeHistory.json"),
+                        "addresses_to_visit": os.path.join("/Enregistré", "A╠Ç visiter.csv"),  # issue with filepath
+                        "addresses_favourite": os.path.join("/Enregistre╠ü", "Adresses favorites.csv"),
+                        "addresses_sellers": os.path.join("/Enregistre╠ü", "Adresses vendeurs.csv"),
+                        "localisation_history": os.path.join("/Historique des positions", "Historique des positions.json"),
+                        "google_pay": os.path.join(
+                            "/Google┬áPay",
+                            "Envois et demandes d_argent",
+                            "Envois et demandes d_argent.csv",
+                        ),
+                        "browser_history": os.path.join("/Chrome", "BrowserHistory.json"),
+                    }
 
                 gg_file_used = 0
                 # OUTPUT #1
@@ -148,14 +167,6 @@ def parse_google_files():
 
                 # Read the relevant files
                 # Product behavioural data
-                if (filename + gg_directory["youtube_subscriptions"]) in file_list:
-                    gg_file_used = gg_file_used + 1
-                    youtube_subs_r = json.load(zf.open(filename + gg_directory["youtube_subscriptions"]))
-                    if len(youtube_subs_r) > 0:
-                        platform_behavioural.append("google")
-                        source_behavioural.append("produit")
-                        year_behavioural.append(2021)  # set 2021 as default date as we don't have dates for each event
-                        count_behavioural.append(len(youtube_subs_r))
                 if (filename + gg_directory["play_store_library"]) in file_list:
                     gg_file_used = gg_file_used + 1
                     play_store_library_r = json.load(zf.open(filename + gg_directory["play_store_library"]))
@@ -170,25 +181,45 @@ def parse_google_files():
                 if (filename + gg_directory["addresses_favourite"]) in file_list:
                     gg_file_used = gg_file_used + 1
                     favourite_addresses_r = pd.read_csv(zf.open(filename + gg_directory["addresses_favourite"]))
-                    if len(favourite_addresses_r["Titre"]) > 0:
-                        for element in favourite_addresses_r["Titre"]:
-                            platform_behavioural.append("google")
-                            source_behavioural.append("localisation")
-                            year_behavioural.append(
-                                2021
-                            )  # set 2021 as default date as we don't have dates for each event
-                            count_behavioural.append(1)
+                    if gg_directory["addresses_favourite"] == os.path.join("/Enregistre╠ü", "Adresses favorites.csv"):
+                        if len(favourite_addresses_r["Titre"]) > 0:
+                            for element in favourite_addresses_r["Titre"]:
+                                platform_behavioural.append("google")
+                                source_behavioural.append("localisation")
+                                year_behavioural.append(
+                                    2021
+                                )  # set 2021 as default date as we don't have dates for each event
+                                count_behavioural.append(1)
+                    else:
+                        if len(favourite_addresses_r["Title"]) > 0:
+                            for element in favourite_addresses_r["Title"]:
+                                platform_behavioural.append("google")
+                                source_behavioural.append("localisation")
+                                year_behavioural.append(
+                                    2021
+                                )  # set 2021 as default date as we don't have dates for each event
+                                count_behavioural.append(1)
                 if (filename + gg_directory["addresses_sellers"]) in file_list:
                     gg_file_used = gg_file_used + 1
                     sellers_addresses_r = pd.read_csv(zf.open(filename + gg_directory["addresses_sellers"]))
-                    if len(sellers_addresses_r["Titre"]) > 0:
-                        for element in sellers_addresses_r["Titre"]:
-                            platform_behavioural.append("google")
-                            source_behavioural.append("localisation")
-                            year_behavioural.append(
-                                2021
-                            )  # set 2021 as default date as we don't have dates for each event
-                            count_behavioural.append(1)
+                    if gg_directory["addresses_favourite"] == os.path.join("/Enregistre╠ü", "Adresses favorites.csv"):
+                        if len(sellers_addresses_r["Titre"]) > 0:
+                            for element in sellers_addresses_r["Titre"]:
+                                platform_behavioural.append("google")
+                                source_behavioural.append("localisation")
+                                year_behavioural.append(
+                                    2021
+                                )  # set 2021 as default date as we don't have dates for each event
+                                count_behavioural.append(1)
+                    else:
+                        if len(sellers_addresses_r["Title"]) > 0:
+                            for element in sellers_addresses_r["Title"]:
+                                platform_behavioural.append("google")
+                                source_behavioural.append("localisation")
+                                year_behavioural.append(
+                                    2021
+                                )  # set 2021 as default date as we don't have dates for each event
+                                count_behavioural.append(1)
                 if (filename + gg_directory["localisation_history"]) in file_list:
                     gg_file_used = gg_file_used + 1
                     # set another time sleep as the file is potentially heavy
