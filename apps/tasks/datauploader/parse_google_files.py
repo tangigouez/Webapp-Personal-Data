@@ -70,10 +70,13 @@ def parse_google_files():
                 time.sleep(5)
 
                 # check if the Google folder names are in EN or FR
-                if (os.path.join(filename + "/Profile", "Profile.json") in file_list) or (os.path.join(filename + "/Home App", "HomeHistory.json") in file_list)\
-                        or (os.path.join(filename + "/Location History", "Location History.json") in file_list) \
-                        or (os.path.join(filename + "/Location History", "Location History.json") in file_list)\
-                        or (os.path.join(filename + "/Saved", "Favourite places.csv") in file_list):
+                if (
+                    (os.path.join(filename + "/Profile", "Profile.json") in file_list)
+                    or (os.path.join(filename + "/Home App", "HomeHistory.json") in file_list)
+                    or (os.path.join(filename + "/Location History", "Location History.json") in file_list)
+                    or (os.path.join(filename + "/Location History", "Location History.json") in file_list)
+                    or (os.path.join(filename + "/Saved", "Favourite places.csv") in file_list)
+                ):
                     # Create dictionary with all the possible EN filepaths in the uploaded google folder directory
                     gg_directory = {
                         "profile_information": os.path.join("/Profile", "Profile.json"),
@@ -87,8 +90,7 @@ def parse_google_files():
                         "addresses_to_visit": os.path.join("/Saved", "Want to go.csv"),  # issue with filepath
                         "addresses_favourite": os.path.join("/Saved", "Favourite places.csv"),
                         "addresses_sellers": os.path.join("/Saved", "Adresses vendeurs.csv"),
-                        "localisation_history": os.path.join("/Location History",
-                                                             "Location History.json"),
+                        "localisation_history": os.path.join("/Location History", "Location History.json"),
                         "browser_history": os.path.join("/Chrome", "BrowserHistory.json"),
                     }
                 else:
@@ -102,7 +104,9 @@ def parse_google_files():
                         "addresses_to_visit": os.path.join("/Enregistré", "A╠Ç visiter.csv"),  # issue with filepath
                         "addresses_favourite": os.path.join("/Enregistre╠ü", "Adresses favorites.csv"),
                         "addresses_sellers": os.path.join("/Enregistre╠ü", "Adresses vendeurs.csv"),
-                        "localisation_history": os.path.join("/Historique des positions", "Historique des positions.json"),
+                        "localisation_history": os.path.join(
+                            "/Historique des positions", "Historique des positions.json"
+                        ),
                         "google_pay": os.path.join(
                             "/Google┬áPay",
                             "Envois et demandes d_argent",
@@ -276,10 +280,10 @@ def loading_state_gg():
     """
 
 
-@app.callback(Output("loading-output-google", "children"),
-              [Input("gg-gen-info", "data"),
-               Input("click_gg", "n_clicks")],
-              )
+@app.callback(
+    Output("loading-output-google", "children"),
+    [Input("gg-gen-info", "data"), Input("click_gg", "n_clicks")],
+)
 def input_triggers_spinner_gg(gg_data, n_clicks):
     # detect if the url "séléctionne tes fichiers Facebook" has been clicked
     if n_clicks is not None:

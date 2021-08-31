@@ -79,12 +79,20 @@ def parse_facebook_files():
                 if str(name.split(".zip")[0]) == str(zf.namelist()[0].split("/")[0]):
                     # Create dictionary with all the possible filepath in the uploaded facebook folder directory
                     fb_directory = {
-                        "profile_information": os.path.join(filename, "profile_information", "profile_information.json"),
-                        "account_activity": os.path.join(filename, "security_and_login_information", "account_activity.json"),
+                        "profile_information": os.path.join(
+                            filename, "profile_information", "profile_information.json"
+                        ),
+                        "account_activity": os.path.join(
+                            filename, "security_and_login_information", "account_activity.json"
+                        ),
                         "page_likes": os.path.join(filename, "pages", "pages_you've_liked.json"),
-                        "mobile_devices": os.path.join(filename, "security_and_login_information", "mobile_devices.json"),
+                        "mobile_devices": os.path.join(
+                            filename, "security_and_login_information", "mobile_devices.json"
+                        ),
                         "life_stage": os.path.join(filename, "other_logged_information", "friend_peer_group.json"),
-                        "likes_and_reactions": os.path.join(filename, "comments_and_reactions", "posts_and_comments.json"),
+                        "likes_and_reactions": os.path.join(
+                            filename, "comments_and_reactions", "posts_and_comments.json"
+                        ),
                         "posts": os.path.join(filename, "posts", "your_posts_1.json"),
                         "cover_photos": os.path.join(filename, "posts", "album", "0.json"),
                         "profile_photos": os.path.join(filename, "posts", "album", "1.json"),
@@ -94,8 +102,12 @@ def parse_facebook_files():
                         "viewed": os.path.join(filename, "your_interactions_on_facebook", "recently_viewed.json"),
                         "interactions_people": os.path.join(filename, "activity_messages", "people_and_friends.json"),
                         "interactions_events": os.path.join(filename, "activity_messages", "events_interactions.json"),
-                        "logins_and_logouts": os.path.join(filename, "security_and_login_information", "logins_and_logouts.json"),
-                        "login_location": os.path.join(filename, "security_and_login_information", "where_you're_logged_in.json"),
+                        "logins_and_logouts": os.path.join(
+                            filename, "security_and_login_information", "logins_and_logouts.json"
+                        ),
+                        "login_location": os.path.join(
+                            filename, "security_and_login_information", "where_you're_logged_in.json"
+                        ),
                         "used_ip": os.path.join(filename, "security_and_login_information", "ip_address_activity.json"),
                         "search_history": os.path.join(filename, "search", "your_search_history.json"),
                         "advertisers_interaction": os.path.join(
@@ -191,7 +203,7 @@ def parse_facebook_files():
                 if (fb_directory["life_stage"]) in file_list:
                     fb_file_used = fb_file_used + 1
                     life_stage = json.load(zf.open(fb_directory["life_stage"]))
-                    life_stage_value = life_stage['friend_peer_group_v2']
+                    life_stage_value = life_stage["friend_peer_group_v2"]
                 else:
                     life_stage_value = None
 
@@ -590,10 +602,10 @@ def loading_state_fb():
     """
 
 
-@app.callback(Output("loading-output-facebook", "children"),
-              [Input("fb-gen-info-1", "data"),
-               Input("click_fb", "n_clicks")],
-              )
+@app.callback(
+    Output("loading-output-facebook", "children"),
+    [Input("fb-gen-info-1", "data"), Input("click_fb", "n_clicks")],
+)
 def input_triggers_spinner_fb(fb_data, n_clicks):
     # detect if the url "séléctionne tes fichiers Facebook" has been clicked
     if n_clicks is not None:
