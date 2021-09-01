@@ -66,7 +66,7 @@ layout = html.Div(
                             ],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("www.png")),
-                        html.H6("Date de naissance sur internet"),
+                        html.H6("Internet birth date"),
                         html.Tr(
                             className="row2",
                             children=[
@@ -81,7 +81,7 @@ layout = html.Div(
                             ],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("ip.png")),
-                        html.H6("Dernière adresse IP"),
+                        html.H6("Last IP address registered"),
                         html.Tr(
                             className="row3",
                             children=[
@@ -96,7 +96,7 @@ layout = html.Div(
                             ],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("fingerprint.png")),
-                        html.H6("Taille empreinte numérique (MB)"),
+                        html.H6("Digital footprint size (MB)"),
                         html.Tr(
                             className="row4",
                             children=[
@@ -111,7 +111,7 @@ layout = html.Div(
                             ],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("email.png")),
-                        html.H6("Adresse(s) e-mail"),
+                        html.H6("E-mail adresse(s)"),
                         html.Tr(
                             className="row5",
                             children=[
@@ -126,7 +126,7 @@ layout = html.Div(
                             ],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("phone.png")),
-                        html.H6("Numéro(s) de téléphone"),
+                        html.H6("Phone number(s)"),
                         html.Tr(
                             className="row6",
                             children=[
@@ -219,7 +219,7 @@ layout = html.Div(
                     className="div-kpis",
                     children=[
                         html.Br(),
-                        html.H6(className="title-kpi-chart", children="Mon activité"),
+                        html.H6(className="title-kpi-chart", children="My activity"),
                         html.Div(
                             # Div for KPI row 1
                             className="div-kpis-row-1",
@@ -235,7 +235,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="comments_text"),
-                                        html.P("Commentaires"),
+                                        html.P("Comments"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     id="comments",
@@ -244,7 +244,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="footprint_text"),
-                                        html.P("MB de données"),
+                                        html.P("MB of data"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     className="mini_container",
@@ -259,7 +259,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="posts_text"),
-                                        html.P("Publications"),
+                                        html.P("Posts"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     id="posts",
@@ -268,7 +268,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="photos_text"),
-                                        html.P("Photos et vidéos"),
+                                        html.P("Photos and videos"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     id="photos",
@@ -277,7 +277,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="areas_of_interest_text"),
-                                        html.P("Pages suivies"),
+                                        html.P("Followed pages"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     id="areasOfInterest",
@@ -288,7 +288,7 @@ layout = html.Div(
                     ],
                 ),
                 html.Br(),
-                html.H6(className="title-pie-chart", children="Mon empreinte numérique"),
+                html.H6(className="title-pie-chart", children="My digital footprint"),
                 html.Br(),
                 # Pie Chart
                 dcc.Graph(id="my_footprint"),
