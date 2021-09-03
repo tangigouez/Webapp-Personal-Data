@@ -15,7 +15,7 @@ layout = html.Div(
         # Title of the page
         html.Div(
             className="main-title",
-            children=[html.H2("Reprends le contrôle de ton identité digitale")],
+            children=[html.H2("Discover what the internet knows about you")],
         ),
         # Introductory text of the page
         html.Div(
@@ -23,10 +23,12 @@ layout = html.Div(
             children=[
                 dcc.Markdown(
                     """
-                La confidentialité de nos utilisateurs est au cœur de notre produit. 
-                **Nous ne voulons et ne pouvons pas voir les données** que tu déposes sur notre plateforme. 
-                Le traitement et le stockage des données visualisées dans ton Dashboard se font localement dans ton navigateur.
-                Dès que tu quittes ton navigateur, les informations visualisées sur Avastar disparaitront.
+                    When you retrieve your personal data from the apps you use, you receive dozens of files with raw data stored in **different formats** (csv, JSON, HTML, etc.).
+                    If you are not technical, it is difficult to get the big picture on who you are on the internet and make decisions about what personal data you would like to delete or modify. 
+                    
+                    That is why we have created a Webapp that allows you to **visualise your digital identity** in a simple way from all the data you have downloaded.
+                    
+                    This dashboard should help you **make decisions** to better manage your online privacy and personalise your advertising interests with a few clicks. 
                 """
                 ),
             ],
@@ -39,8 +41,8 @@ layout = html.Div(
                     # Box dedicated to downloading data
                     className="float-box-step-1",
                     children=[
-                        html.H4("Etape 1 - Télécharge tes données"),
-                        html.P("Suis les instructions de nos tutoriels pour récupérer tes données."),
+                        html.H4("Step 1 - Download your personal data"),
+                        html.P("Follow our tutorials to get your data."),
                         dbc.CardDeck(
                             [
                                 # Facebook Card
@@ -51,12 +53,12 @@ layout = html.Div(
                                             top=True,
                                         ),
                                         html.Br(),
-                                        html.P("Réception ~ 5 minutes"),
+                                        html.P("Reception ~ 5 minutes"),
                                         dbc.CardBody(
                                             [
                                                 # html.Br(),
                                                 dbc.Button(
-                                                    "Télécharger",
+                                                    "Download",
                                                     color="success",
                                                     href="https://www.avastar.fr/faq",
                                                     external_link=True,
@@ -86,12 +88,12 @@ layout = html.Div(
                                             top=True,
                                         ),
                                         html.Br(),
-                                        html.P("Réception ~ 3 minutes"),
+                                        html.P("Reception ~ 3 minutes"),
                                         dbc.CardBody(
                                             [
                                                 # html.Br(),
                                                 dbc.Button(
-                                                    "Télécharger",
+                                                    "Download",
                                                     color="success",
                                                     href="https://www.avastar.fr/faq",
                                                     target="_blank",
@@ -122,12 +124,12 @@ layout = html.Div(
                 html.Div(
                     className="float-box-step-2",
                     children=[
-                        html.H4("Etape 2 - Dépose tes fichiers"),
-                        html.P("Le téléchargement de tes données peut prendre quelques secondes."),
+                        html.H4("Step 2 - Upload your files"),
+                        html.P("It may take a few seconds to upload your data."),
                         # Facebook Data Uploader
                         dcc.Upload(
                             id="upload-data-facebook",
-                            children=html.Div([html.A(id="click_fb", children="Sélectionne ton fichier ZIP Facebook")]),
+                            children=html.Div([html.A(id="click_fb", children="Select your Facebook ZIP file")]),
                             style={
                                 "lineHeight": "25px",
                                 "borderWidth": "1px",
@@ -149,7 +151,7 @@ layout = html.Div(
                         # Google data uploader
                         dcc.Upload(
                             id="upload-data-google",
-                            children=html.Div([html.A(id="click_gg", children="Sélectionne ton fichier ZIP Google")]),
+                            children=html.Div([html.A(id="click_gg", children="Select your Google ZIP file")]),
                             style={
                                 "lineHeight": "25px",
                                 "borderWidth": "1px",
@@ -175,14 +177,14 @@ layout = html.Div(
                 html.Div(
                     className="float-box-step-3",
                     children=[
-                        html.H4("Etape 3 - Passe à l'action"),
+                        html.H4("Step 3 - Take action"),
                         html.P(
-                            "Reprends le contrôle de ta vie privée et de ton image sur internet.",
+                            "Take back control of your privacy and your identity on the internet.",
                             className="card-text",
                         ),
                         html.Br(),
                         dbc.Button(
-                            "Accéder au dashboard",
+                            "Access the dashboard",
                             color="success",
                             href="/mon-activite",
                             external_link=False,
@@ -201,18 +203,18 @@ layout = html.Div(
         # Alert box to display link towards solution page
         dbc.Alert(
             [
-                html.H4("Tu rencontres un problème ?"),
+                html.H4("You have encountered a problem to upload you personal data files?"),
                 html.Div(
                     [
-                        "Nous avons très certainement une solution pour toi ! Rends toi sur ",
+                        "We certainly have a solution for you! Go to ",
                         html.A(
-                            "ce lien",
+                            "this link",
                             href="https://www.avastar.fr/support",
                             target="_blank",
                             style={"color": "#004085", "text-decoration": "none"},
                             className="alert-link",
                         ),
-                        " pour plus de détails sur la façon dont il peut être résolu.",
+                        " to get more details on how it can be solved.",
                     ]
                 ),
             ],
@@ -224,15 +226,19 @@ layout = html.Div(
             children=[
                 dbc.Jumbotron(
                     [
-                        html.H4(" Nous aimerions avoir ton avis !"),
+                        html.H4(" Who are we?"),
                         dcc.Markdown(
                             """
-                        Dis nous comment tu aimerais **actionner ta carte d’identité digitale**. 
-                        Grâce à ton aide nous pourrons  prioriser les fonctionnalités qui comptent le plus pour toi.
+                        The project has been developed by Tangi Gouez and Nicolas Pfeffer. We are both working as Data Analysts in Tech companies in Paris 
+                        and passionate about solving complex problems through data analysis. We decided to co-found this project to develop the tools and educational 
+                        content we wish we had had when we first started online.
+                        
+                        **Please reach out to us if you have the skills and ideas to make this open-source project more scalable and secure.** 
                         """
                         ),
+                        html.Br(),
                         dbc.Button(
-                            "Par ici !",
+                            "Get in touch",
                             href="https://docs.google.com/forms/d/e/1FAIpQLScogm301-tQgu5ysMUGBydAc_STn6Y36nLgavqBGmMunHWZQA/viewform?usp=pp_url",
                             style={
                                 "text-transform": "uppercase",
@@ -248,19 +254,36 @@ layout = html.Div(
             ],
         ),
         html.Br(),
+        # Disclaimer
+        html.Div(
+            className="disclaimer-text",
+            children=[
+                dcc.Markdown(
+                    """
+                    **Disclaimer :** 
+                    
+                    It is important to know that the files you upload to the webapp are passing through a server. The webapp is deployed on Heroku and relies on a system whose file storage is ephemeral.
+                    Indeed, on Heroku the dynos automatically restart every 24 hours. The memory is rebooted every 24h which cause all the files uploaded to the webapp to be deleted. Because we had limited resources to build this project, we do not 
+                    pretend to guarantee an infrastructure that ensures an absolutely secure environment for our users.
+                    We therefore decline all responsibility for any problem in the sharing of your data on our webapp.
+                """
+                ),
+            ],
+        ),
+        html.Br(),
         # Footer
         html.Footer(
             className="footer",
             children=[
-                html.A("Notre vision", href="https://www.avastar.fr/manifesto", target="_blank"),
+                html.A("Our vision", href="https://www.avastar.fr/manifesto", target="_blank"),
                 html.A(
-                    "Nous contacter",
+                    "You want to contribute ?",
                     href="mailto:contact@avastar.fr",
                     target="_blank",
                     style={"margin-left": "100px"},
                 ),
                 html.A(
-                    "Nous soutenir",
+                    "Open source code",
                     href="https://www.buymeacoffee.com/avastar",
                     target="_blank",
                     style={"margin-left": "100px"},
