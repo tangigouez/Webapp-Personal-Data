@@ -511,8 +511,19 @@ font-size: 15px;
 text-align: left;
 padding-top: 5px;
 padding-bottom: 20px;
-padding-left: 105px;
-padding-right: 105px;
+padding-left: 135px;
+padding-right: 135px;
+line-height: 25px;
+}
+.disclaimer-text {
+text-align: center;
+font-family: "Lato";
+font-size: 15px;
+text-align: left;
+padding-top: 5px;
+padding-bottom: 20px;
+padding-left: 25px;
+padding-right: 25px;
 line-height: 25px;
 }
 .steps-boxes{
