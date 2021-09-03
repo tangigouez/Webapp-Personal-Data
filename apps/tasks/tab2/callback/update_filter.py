@@ -41,17 +41,17 @@ def update_interest_table():
             dff = large_df[large_df.platform.isin(platform)]
 
             # Rename columns to get more explicit names on the webapp
-            dff.columns = ["Plateforme", "Centre d'intéret publicitaire"]
+            dff.columns = ["Platform", "Advertising interests"]
             # Change the order of columns to keep ads interest names on the left side
-            dff = dff.reindex(columns=["Centre d'intéret publicitaire", "Plateforme"])
+            dff = dff.reindex(columns=["Advertising interests", "Platform"])
 
         else:
             no_data = ["Aucune donnée"]
 
             dff = pd.DataFrame(
                 {
-                    "Centre d'intéret publicitaire": no_data,
-                    "Plateforme": no_data,
+                    "Advertising interests": no_data,
+                    "Platform": no_data,
                 }
             )
         children = dash_table.DataTable(
@@ -306,10 +306,10 @@ def update_behaviour_data_pct():
                 go.Bar(
                     x=x,
                     y=pct_connexion,
-                    name="connexion",
+                    name="login history",
                     text=connexion,
-                    hovertemplate="%{y} des informations enregistrées par %{x} à ton propos sont "
-                    "des données de connexion avec un total de %{text} connexions",
+                    hovertemplate="%{y} of recorded data by %{x} about you is "
+                    "about your login history with a total of %{text} logins",
                     width=0.2,
                 )
             )
@@ -317,10 +317,10 @@ def update_behaviour_data_pct():
                 go.Bar(
                     x=x,
                     y=pct_historique,
-                    name="historique",
+                    name="search history",
                     text=historique,
-                    hovertemplate="%{y} des informations enregistrées par %{x} à ton propos sont "
-                    "des données d'historique de recherche avec un total de %{text} recherches",
+                    hovertemplate="%{y} of recorded data by %{x} about you is "
+                    "about your search history with a total of %{text} searches",
                     width=0.2,
                 )
             )
@@ -330,8 +330,8 @@ def update_behaviour_data_pct():
                     y=pct_localisation,
                     name="localisation",
                     text=localisation,
-                    hovertemplate="%{y} des informations enregistrées par %{x} à ton propos sont "
-                    "des données de localisation avec un total de %{text} coordonnées GPS",
+                    hovertemplate="%{y} of recorded data by %{x} about you is "
+                    "localisation data with a total of %{text} GPS coordinates",
                     width=0.2,
                 )
             )
@@ -339,10 +339,10 @@ def update_behaviour_data_pct():
                 go.Bar(
                     x=x,
                     y=pct_produit,
-                    name="produit",
+                    name="product",
                     text=produit,
-                    hovertemplate="%{y} des informations enregistrées par %{x} à ton propos sont "
-                    "des données d'utilisation produit avec un total de %{text} actions enregistrées",
+                    hovertemplate="%{y} of recorded data by %{x} about you is "
+                    "product usage data with a total of %{text} actions recorded",
                     width=0.2,
                 )
             )
@@ -352,8 +352,8 @@ def update_behaviour_data_pct():
                     y=pct_transaction,
                     name="transaction",
                     text=transaction,
-                    hovertemplate="%{y} des informations enregistrées par %{x} à ton propos sont "
-                    "des données de transactions avec un total de %{text} paiements",
+                    hovertemplate="%{y} of recorded data by %{x} about you is "
+                    "transaction data with a total of %{text} payments",
                     width=0.2,
                 )
             )
@@ -435,8 +435,8 @@ def update_behaviour_data_qtity():
             fig.update_traces(
                 texttemplate="%{y:.2s}",
                 textposition="outside",
-                hovertemplate="%{x} a enregistré un total de %{y:.2s} données sur "
-                "ton comportement et tes actions sur la plateforme",
+                hovertemplate="%{x} has recorded a total of %{y:.2s} data about "
+                "your behaviour and actions ON and OFF the platform",
             )
 
             return fig

@@ -35,7 +35,7 @@ navbar = dbc.Navbar(
             [
                 dbc.NavItem(
                     dbc.NavLink(
-                        "Accueil",
+                        "Home",
                         href="/accueil",
                         style={
                             "background-color": "#0D67FE",
@@ -48,7 +48,7 @@ navbar = dbc.Navbar(
                 ),
                 dbc.NavItem(
                     dbc.NavLink(
-                        "Mon activité",
+                        "My activity",
                         href="/mon-activite",
                         style={
                             "background-color": "#0D67FE",
@@ -61,7 +61,7 @@ navbar = dbc.Navbar(
                 ),
                 dbc.NavItem(
                     dbc.NavLink(
-                        "Mon comportement",
+                        "My behaviour",
                         href="/mon-comportement",
                         style={
                             "background-color": "#0D67FE",

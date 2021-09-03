@@ -50,13 +50,13 @@ layout = html.Div(
                     className="table-profile",
                     children=[
                         html.Img(className="icon", src=app.get_asset_url("device.png")),
-                        html.H6("Appareils"),
+                        html.H6("Device(s) used"),
                         html.Tr(
                             className="row1",
                             children=[html.Td(children=[html.P(className="td-info", id="devices")])],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("browser.png")),
-                        html.H6("Navigateur(s) enregistré(s)"),
+                        html.H6("Browser(s) used"),
                         html.Tr(
                             className="row2",
                             children=[
@@ -70,13 +70,13 @@ layout = html.Div(
                             ],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("os.png")),
-                        html.H6("Système(s) d'exploitation"),
+                        html.H6("Operating system(s) used"),
                         html.Tr(
                             className="row3",
                             children=[html.Td(children=[html.P(className="td-info", id="os")])],
                         ),
                         html.Img(className="icon", src=app.get_asset_url("languages.png")),
-                        html.H6("Langue(s) de préférence"),
+                        html.H6("Preferred language(s)"),
                         html.Tr(
                             className="row4",
                             children=[
@@ -93,7 +93,7 @@ layout = html.Div(
                             className="icon",
                             src=app.get_asset_url("facial-recognition.png"),
                         ),
-                        html.H6("Stade de vie"),
+                        html.H6("Inferred life stage"),
                         html.Tr(
                             className="row5",
                             children=[
@@ -166,7 +166,7 @@ layout = html.Div(
                     ],
                 ),
                 html.Br(),
-                html.H6(className="title-pie-chart", children="Mes données comportementales"),
+                html.H6(className="title-pie-chart", children="My behavioural data"),
                 # Pie Chart
                 html.Br(),
                 dcc.Tabs(
@@ -176,20 +176,20 @@ layout = html.Div(
                         dcc.Tab(
                             className="custom-tab",
                             selected_className="custom-tab--selected",
-                            label="Quantité de données comportementales enregistrées",
+                            label="Quantity of behavioural data recorded",
                             children=[html.Br(), dcc.Graph(id="my_behaviour_qtity")],
                         ),
                         dcc.Tab(
                             className="custom-tab",
                             selected_className="custom-tab--selected",
-                            label="Catégories d'informations (%)",
+                            label="Categories of behavioural data (%)",
                             children=[html.Br(), dcc.Graph(id="my_behaviour_pct")],
                         ),
                     ],
                 ),
                 html.H6(
                     className="title-pie-chart",
-                    children="Mes centres d'intérêts publicitaires",
+                    children="My advertising interests",
                 ),
                 html.Div(
                     # Div for KPI
@@ -202,7 +202,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="ads_interactions_text"),
-                                        html.P("Intéractions avec des publicités"),
+                                        html.P("Interactions with ads"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     className="mini_container",
@@ -210,7 +210,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="num_advertisers_text"),
-                                        html.P("Annonceurs détiennent mes informations"),
+                                        html.P("Advertisers hold information about me"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     className="mini_container",
@@ -218,7 +218,7 @@ layout = html.Div(
                                 html.Div(
                                     [
                                         html.H6(id="num_ads_interests"),
-                                        html.P("Centres d'intérêts publicitaires"),
+                                        html.P("Ads interests"),
                                         html.Img(src=app.get_asset_url("avastar_footprint_logo.png")),
                                     ],
                                     className="mini_container",
