@@ -114,12 +114,13 @@ def parse_facebook_files():
                             "ads_information", "advertisers_you've_interacted_with.json"
                         ),
                         "ad_contact_info": os.path.join(
+                            filename,
                             "ads_information",
                             "advertisers_who_uploaded_a_contact_list_with_your_information.json",
                         ),
-                        "ads_interests": os.path.join("other_logged_information", "ads_interests.json"),
-                        "ads_topics": os.path.join("your_topics", "your_topics.json"),
-                        "cookies": os.path.join("security_and_login_information", "browser_cookies.json"),
+                        "ads_interests": os.path.join(filename, "other_logged_information", "ads_interests.json"),
+                        "ads_topics": os.path.join(filename, "your_topics", "your_topics.json"),
+                        "cookies": os.path.join(filename, "security_and_login_information", "browser_cookies.json"),
                     }
                 else:
                     # Create dictionary with all the possible filepath in the uploaded facebook folder directory
