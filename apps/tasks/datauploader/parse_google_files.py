@@ -285,11 +285,11 @@ def loading_state_gg():
     [Input("gg-gen-info", "data"), Input("click_gg", "n_clicks")],
 )
 def input_triggers_spinner_gg(gg_data, n_clicks):
-    # detect if the url "séléctionne tes fichiers Facebook" has been clicked
+    # detect if the url "Selecy your Google files" has been clicked
     if n_clicks is not None:
         # time sleep to launch the spinner
         while gg_data is None:
             time.sleep(1)
         # display success message once at least one dcc store is not None
-        success_text = "Le traitement de tes fichiers Google est terminé !"
+        success_text = "The processing of your Google files is finished!"
         return success_text
