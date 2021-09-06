@@ -60,7 +60,7 @@ layout = html.Div(
                                                 dbc.Button(
                                                     "Download",
                                                     color="success",
-                                                    href="https://www.avastar.fr/faq",
+                                                    href="https://avastar.notion.site/How-to-get-your-Data-f35b51c5690d4f1889c87e0fd0b970d8",
                                                     external_link=True,
                                                     target="_blank",
                                                     style={
@@ -95,7 +95,7 @@ layout = html.Div(
                                                 dbc.Button(
                                                     "Download",
                                                     color="success",
-                                                    href="https://www.avastar.fr/faq",
+                                                    href="https://avastar.notion.site/How-to-get-your-Data-f35b51c5690d4f1889c87e0fd0b970d8",
                                                     target="_blank",
                                                     external_link=True,
                                                     style={
@@ -203,13 +203,13 @@ layout = html.Div(
         # Alert box to display link towards solution page
         dbc.Alert(
             [
-                html.H4("You have encountered a problem to upload you personal data files?"),
+                html.H4("You have encountered a problem to upload your personal data files?"),
                 html.Div(
                     [
                         "We certainly have a solution for you! Go to ",
                         html.A(
                             "this link",
-                            href="https://www.avastar.fr/support",
+                            href="https://avastar.notion.site/Webapp-Help-Center-09c5e3892814493da33a8bde112bc775",
                             target="_blank",
                             style={"color": "#004085", "text-decoration": "none"},
                             className="alert-link",
@@ -229,17 +229,17 @@ layout = html.Div(
                         html.H4(" Who are we?"),
                         dcc.Markdown(
                             """
-                        The project has been developed by Tangi Gouez and Nicolas Pfeffer. We are both working as Data Analysts in Tech companies in Paris 
+                        The project has been developed by [Tangi Gouez](https://www.linkedin.com/in/tangi-gouez/) and [Nicolas Pfeffer](https://www.linkedin.com/in/nicolas-pfeffer/). We are both Data Analysts in Tech companies in Paris 
                         and passionate about solving complex problems through data analysis. We decided to co-found this project to develop the tools and educational 
                         content we wish we had had when we first started online.
                         
-                        **Please reach out to us if you have the skills and ideas to make this open-source project more scalable and secure.** 
+                        **Reach out to us if you think you can help us make this open-source project more scalable and secure.** 
                         """
                         ),
                         html.Br(),
                         dbc.Button(
                             "Get in touch",
-                            href="https://docs.google.com/forms/d/e/1FAIpQLScogm301-tQgu5ysMUGBydAc_STn6Y36nLgavqBGmMunHWZQA/viewform?usp=pp_url",
+                            href="https://avastar.notion.site/avastar/Avastar-Open-Source-Project-730dbef6c24040d69b4f3a17960979ae",
                             style={
                                 "text-transform": "uppercase",
                                 "letter-spacing": "1px",
@@ -260,7 +260,7 @@ layout = html.Div(
             children=[
                 dcc.Markdown(
                     """
-                    **Disclaimer :** 
+                    **Disclaimer** 
                     
                     It is important to know that the files you upload to the webapp are passing through a server. The webapp is deployed on Heroku and relies on a system whose file storage is ephemeral.
                     Indeed, on Heroku the dynos automatically restart every 24 hours. The memory is rebooted every 24h which cause all the files uploaded to the webapp to be deleted. Because we had limited resources to build this project, we do not 
@@ -275,16 +275,16 @@ layout = html.Div(
         html.Footer(
             className="footer",
             children=[
-                html.A("Our vision", href="https://www.avastar.fr/manifesto", target="_blank"),
+                html.A("Our vision", href="https://avastar.notion.site/Our-Mission-a52207c78d2e405c95da934ee19a6a5a", target="_blank"),
                 html.A(
                     "You want to contribute ?",
-                    href="mailto:contact@avastar.fr",
+                    href="https://avastar.notion.site/Technical-Challenges-0d8dcc660a1e436a9109b3e588c997d2",
                     target="_blank",
                     style={"margin-left": "100px"},
                 ),
                 html.A(
                     "Open source code",
-                    href="https://www.buymeacoffee.com/avastar",
+                    href="https://github.com/tangigouez/Webapp-Personal-Data",
                     target="_blank",
                     style={"margin-left": "100px"},
                 ),
