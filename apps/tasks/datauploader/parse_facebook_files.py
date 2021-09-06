@@ -608,11 +608,11 @@ def loading_state_fb():
     [Input("fb-gen-info-1", "data"), Input("click_fb", "n_clicks")],
 )
 def input_triggers_spinner_fb(fb_data, n_clicks):
-    # detect if the url "séléctionne tes fichiers Facebook" has been clicked
+    # detect if the url "select your Facebook files" has been clicked
     if n_clicks is not None:
         # time sleep to launch the spinner
         while fb_data is None:
             time.sleep(1)
         # display success message once at least one dcc store is not None
-        success_text = "Le traitement de tes fichiers Facebook est terminé !"
+        success_text = "The processing of your Facebook files is finished!"
         return success_text
