@@ -275,7 +275,11 @@ layout = html.Div(
         html.Footer(
             className="footer",
             children=[
-                html.A("Our vision", href="https://avastar.notion.site/Our-Mission-a52207c78d2e405c95da934ee19a6a5a", target="_blank"),
+                html.A(
+                    "Our vision",
+                    href="https://avastar.notion.site/Our-Mission-a52207c78d2e405c95da934ee19a6a5a",
+                    target="_blank",
+                ),
                 html.A(
                     "You want to contribute ?",
                     href="https://avastar.notion.site/Technical-Challenges-0d8dcc660a1e436a9109b3e588c997d2",
