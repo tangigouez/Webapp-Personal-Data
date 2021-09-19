@@ -343,16 +343,17 @@ def parse_facebook_files():
                                 ).year
                             )
                             count_behavioural.append(1)
-                    if len(visited_r["visited_things_v2"][3]["entries"]) > 0:
-                        for i in range(0, len(visited_r["visited_things_v2"][3]["entries"])):
-                            platform_behavioural.append("facebook")
-                            source_behavioural.append("produit")
-                            year_behavioural.append(
-                                datetime.utcfromtimestamp(
-                                    visited_r["visited_things_v2"][3]["entries"][i]["timestamp"]
-                                ).year
-                            )
-                            count_behavioural.append(1)
+                    # this filepath is a source of many errors depending on the user file structure
+                    # if len(visited_r["visited_things_v2"][3]["entries"]) > 0:
+                    #     for i in range(0, len(visited_r["visited_things_v2"][3]["entries"])):
+                    #         platform_behavioural.append("facebook")
+                    #         source_behavioural.append("produit")
+                    #         year_behavioural.append(
+                    #             datetime.utcfromtimestamp(
+                    #                 visited_r["visited_things_v2"][3]["entries"][i]["timestamp"]
+                    #             ).year
+                    #         )
+                    #         count_behavioural.append(1)
 
                     if (fb_directory["viewed"]) in file_list:
                         fb_file_used = fb_file_used + 1
@@ -511,18 +512,19 @@ def parse_facebook_files():
                     platform_kpi_2.append("facebook")
                     info_kpi_2.append("ads_interactions")
                     count_kpi_2.append(len(ads_interactions["history_v2"]))
-                if (fb_directory["viewed"]) in file_list:
-                    fb_file_used = fb_file_used + 1
-                    viewed_r = json.load(zf.open(fb_directory["viewed"]))
-                    platform_kpi_2.append("facebook")
-                    info_kpi_2.append("ads_interactions")
-                    if len(viewed_r["recently_viewed"]) >= 5:
-                        if "entries" in viewed_r["recently_viewed"][5]:
-                            count_kpi_2.append(len(viewed_r["recently_viewed"][5]["entries"]))
-                        else:
-                            count_kpi_2.append(0)
-                    else:
-                        count_kpi_2.append(0)
+                # this filepath is a source of many errors depending on the user file structure
+                # if (fb_directory["viewed"]) in file_list:
+                #     fb_file_used = fb_file_used + 1
+                #     viewed_r = json.load(zf.open(fb_directory["viewed"]))
+                #     platform_kpi_2.append("facebook")
+                #     info_kpi_2.append("ads_interactions")
+                #     if len(viewed_r["recently_viewed"]) >= 5:
+                #         if "entries" in viewed_r["recently_viewed"][5]:
+                #             count_kpi_2.append(len(viewed_r["recently_viewed"][5]["entries"]))
+                #         else:
+                #             count_kpi_2.append(0)
+                #     else:
+                #         count_kpi_2.append(0)
                 if (fb_directory["ad_contact_info"]) in file_list:
                     fb_file_used = fb_file_used + 1
                     advertisers = json.load(zf.open(fb_directory["ad_contact_info"]))
