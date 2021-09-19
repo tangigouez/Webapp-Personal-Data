@@ -43,3 +43,8 @@ You can also find a short [presentation of the team](https://avastar.notion.site
 
 If you want to understand our vision, our commitment and why we decided to launch this project, we encourage you to read our [Manifesto](https://avastar.notion.site/Our-Mission-a52207c78d2e405c95da934ee19a6a5a).
 
+---
+## :triangular_flag_on_post: Technologies and Tools
+
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+![Heroku CI Status](https://img.shields.io/badge/%E2%86%91_Deploy_to-Heroku-7056bf.svg)
